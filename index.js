@@ -5,11 +5,11 @@ $(document).ready(function () {
   function initData(callback) {
     $.when($.getJSON("/data/cars.json"), $.getJSON("/data/garages.json"))
       .done(function (carsData, garagesData) {
-        cars = carsData[0]; // Stocker toutes les voitures
-        garages = garagesData[0]; // Stocker tous les garages
+        cars = carsData[0];
+        garages = garagesData[0];
 
         if (typeof callback === "function") {
-          callback(); // Exécuter la suite une fois les données chargées
+          callback();
         }
       })
       .fail(function () {
@@ -18,8 +18,8 @@ $(document).ready(function () {
   }
 
   function formatYear(timestamp) {
-    let date = new Date(timestamp * 1000); // Convertir en millisecondes
-    return date.getFullYear(); // Extraire l'année
+    let date = new Date(timestamp * 1000);
+    return date.getFullYear();
   }
 
   function getGarageName(garageId) {
@@ -126,7 +126,6 @@ $(document).ready(function () {
         createCard(client, car);
       });
 
-      // Ajouter un événement au clic sur une voiture
       $(".view-car").click(function () {
         let carId = $(this).data("id");
         loadCarDetails(carId);
@@ -197,7 +196,7 @@ $(document).ready(function () {
       }
 
       if (typeof callback === "function") {
-        callback(); // Exécute la fonction après le chargement
+        callback();
       }
     });
   }
@@ -233,6 +232,6 @@ $(document).ready(function () {
   $(".clients").change(function () {
     const newClient = $(".clients").find(":selected").val();
     document.cookie = newClient;
-    loadAll(); // Recharger avec le nouveau client
+    loadAll();
   });
 });

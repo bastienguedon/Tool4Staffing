@@ -20,10 +20,12 @@ if (isset($_GET['carId'])) {
     if ($car) {
         $garageName = $garageMap[$car["garageId"]] ?? "Garage inconnu";
         echo "<h2>Détails de la voiture</h2>";
-        echo "<p><strong>Modèle :</strong> {$car['brand']} {$car['modelName']}</p>";
+        echo "<p><strong>Modèle :</strong> {$car['modelName']}</p>";
+        echo "<p><strong>Marque :</strong> {$car['brand']}</p>";
         echo "<p><strong>Année :</strong> " . date("Y", $car['year']) . "</p>";
         echo "<p><strong>Puissance :</strong> {$car['power']} chevaux</p>";
         echo "<p><strong>Garage :</strong> {$garageName}</p>";
+        echo "<p class='d-flex align-items-center gap-2'><strong>Couleur :</strong><span style='background-color: {$car['colorHex']}; width: 16px; height: 16px; border-radius: 50%;'></span></p>";
         echo "<button class='btn btn-secondary back-to-list'>Retour à la liste</button>";
         
     } else {
