@@ -22,8 +22,8 @@ Problèmes actuels liés aux données client :
 
 Solutions :
 
-- Mettre en place une authentification, avec un identifiant et mot de passe pour chaque client, à minima, afin de pouvoir l'identifier clairement, et si possible une gestion des sessions via un système de token par exemple
+- Mettre en place une authentification, avec un identifiant et mot de passe pour chaque client, à minima, afin de pouvoir l'identifier clairement, et si possible, mettre en place une gestion des sessions via un système de token par exemple
 - Stocker les données en base sur un serveur sécurisé
 - Chiffrer les données sensibles en base (mot de passe...)
-- Mettre une place une liaison sécurisée en HTTPS
+- Mettre en place une liaison sécurisée en HTTPS
 - Retourner uniquement les données qui appartiennent au client connecté
