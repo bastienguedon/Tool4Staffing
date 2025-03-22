@@ -46,39 +46,88 @@ $(document).ready(function () {
     );
   }
 
+  function createCard(client, car) {
+    let carCard = "";
+    switch (client) {
+      case "clienta":
+        const now = new Date().getFullYear();
+        const carYear = formatYear(car.year);
+        const carColor =
+          now - carYear > 10 ? "red" : now - carYear < 2 ? "green" : "";
+        carCard = `
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4" style="border-color: ${carColor}">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: ${carColor}">${car.modelName}</h5>
+                    <p class="card-text">
+                        Marque : ${car.brand}<br>
+                        Puissance : ${car.power}<br>
+                        Année : ${carYear}
+                    </p>
+                    <button class="btn btn-primary view-car" data-id="${car.id}">
+                        Voir le détail
+                    </button>
+                </div>
+            </div>
+        </div>`;
+        break;
+      case "clientb":
+        carCard = `
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">${car.modelName.toLowerCase()}</h5>
+                    <p class="card-text">
+                        Marque : ${car.brand}<br>
+                        Garage : ${getGarageName(car.garageId)}
+                    </p>
+                    <button class="btn btn-primary view-car" data-id="${
+                      car.id
+                    }">
+                        Voir le détail
+                    </button>
+                </div>
+            </div>
+        </div>`;
+        break;
+      default:
+        carCard = `
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4" style="border-color: ${car.colorHex}">
+                <div class="card-body">
+                    <h5 class="card-title" style="color: ${car.colorHex}">${car.modelName}</h5>
+                    <p class="card-text">
+                        Marque : ${car.brand}<br>
+                        Puissance : ${car.power}
+                    </p>
+                    <button class="btn btn-primary view-car" data-id="${car.id}">
+                        Voir le détail
+                    </button>
+                </div>
+            </div>
+        </div>`;
+        break;
+    }
+    $("#car-list").append(carCard);
+  }
+
   function loadCars() {
     const client = document.cookie || "clienta";
 
     const clientCars = cars.filter((car) => car.customer === client);
 
     if (clientCars.length > 0) {
-      let carList = "<h2>Liste des voitures</h2><ul>";
+      const carsList =
+        '<div class="container mt-4"><h2 class="text-center">Liste des voitures</h2><div class="row" id="car-list"></div></div>';
+      $(".content").html(carsList);
+
+      $("#car-list").empty();
       clientCars.forEach((car) => {
-        switch (car.customer) {
-          case "clienta":
-            carList += `<li class="car-item" data-id="${
-              car.id
-            }" style="cursor: pointer;" >${car.modelName} ${
-              car.brand
-            } ${formatYear(car.year)} ${car.power}</li>`;
-            break;
-          case "clientb":
-            carList += `<li class="car-item" data-id="${
-              car.id
-            }" style="cursor: pointer;">${car.modelName.toLowerCase()} ${
-              car.brand
-            } ${getGarageName(car.garageId)}</li>`;
-            break;
-          default:
-            carList += `<li class="car-item" data-id="${car.id}" style="color: ${car.colorHex}; cursor: pointer;">${car.modelName} ${car.brand}</li>`;
-            break;
-        }
+        createCard(client, car);
       });
-      carList += "</ul>";
-      $(".content").html(carList);
 
       // Ajouter un événement au clic sur une voiture
-      $(".car-item").click(function () {
+      $(".view-car").click(function () {
         let carId = $(this).data("id");
         loadCarDetails(carId);
       });
@@ -108,14 +157,25 @@ $(document).ready(function () {
     const garageCars = garages.filter((car) => car.customer === client);
 
     if (garageCars.length > 0) {
-      let garageList = "<h2>Liste des garages</h2><ul>";
-      garageCars.forEach((garage) => {
-        garageList += `<li class="garage-item" data-id="${garage.id}" style="cursor: pointer;" >${garage.title}</li>`;
-      });
-      garageList += "</ul>";
+      const garageList =
+        '<div class="container mt-4"><h2 class="text-center">Liste des garages</h2><div class="row" id="garage-list"></div></div>';
       $(".content").html(garageList);
+      garageCars.forEach((garage) => {
+        garageCard = `
+        <div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">${garage.title}</h5>
+                    <button class="btn btn-primary view-garage" data-id="${garage.id}">
+                        Voir le détail
+                    </button>
+                </div>
+            </div>
+        </div>`;
+        $("#garage-list").append(garageCard);
+      });
 
-      $(".garage-item").click(function () {
+      $(".view-garage").click(function () {
         let garageId = $(this).data("id");
         loadGarageDetails(garageId);
       });
@@ -146,7 +206,7 @@ $(document).ready(function () {
     const client = document.cookie || "clienta";
     if (client === "clientb") {
       $(".dynamic-div").append(
-        "<div><button type='button' id='cars'>Voitures</button><button type='button' id='garages'>Garages</button></div>"
+        "<div class='d-flex gap-2'><button type='button' class='btn btn-warning' id='cars'>Voitures</button><button type='button' class='btn btn-secondary' id='garages'>Garages</button></div>"
       );
 
       $("#cars").click(function () {
@@ -170,7 +230,7 @@ $(document).ready(function () {
   window.loadAll = loadAll;
   initData(loadAll);
 
-  $(".clients").click(function () {
+  $(".clients").change(function () {
     const newClient = $(".clients").find(":selected").val();
     document.cookie = newClient;
     loadAll(); // Recharger avec le nouveau client

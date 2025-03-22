@@ -16,7 +16,7 @@ if (isset($_GET['garageId'])) {
         echo "<h2>Détails du garage</h2>";
         echo "<p><strong>Nom :</strong> {$garage['title']}</p>";
         echo "<p><strong>Adresse :</strong> {$garage['address']} </p>";
-        echo "<p><a href='#' class='back-to-list'>🔙 Retour à la liste</a></p>";
+        echo "<button class='btn btn-secondary back-to-list'>Retour à la liste</button>";
     } else {
         echo "<p>Garage introuvable.</p>";
     }

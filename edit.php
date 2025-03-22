@@ -24,7 +24,8 @@ if (isset($_GET['carId'])) {
         echo "<p><strong>Année :</strong> " . date("Y", $car['year']) . "</p>";
         echo "<p><strong>Puissance :</strong> {$car['power']} chevaux</p>";
         echo "<p><strong>Garage :</strong> {$garageName}</p>";
-        echo "<p><a href='#' class='back-to-list'>🔙 Retour à la liste</a></p>";
+        echo "<button class='btn btn-secondary back-to-list'>Retour à la liste</button>";
+        
     } else {
         echo "<p>Voiture introuvable.</p>";
     }
